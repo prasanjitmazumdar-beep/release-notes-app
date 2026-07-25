@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { ChevronDown, Search, Award, Star, Eye } from 'lucide-react';
+import { ChevronDown, Search, Award, Star } from 'lucide-react';
 
 export default function ReleasesPage() {
   const [expandedRelease, setExpandedRelease] = useState(null);
@@ -13,10 +13,9 @@ export default function ReleasesPage() {
       id: 1,
       team: 'Gen AI',
       title: 'BrightTeacher Bot Now Live for All',
-      subtitle: 'AI-powered assistant for teachers',
       summary: 'Simplified workflows with instant support',
       impact: 'High',
-      heroImage: '/hero-workflow.png',
+      gradient: 'from-purple-400 via-purple-500 to-purple-600',
       features: [
         { name: 'Class Schedule', description: 'View daily schedule with student names and lesson plans' },
         { name: 'Teacher Profile', description: 'Access personal details, performance metrics, and contact info' },
@@ -27,17 +26,15 @@ export default function ReleasesPage() {
       owner: 'Priya S.',
       publishedDate: 'July 19, 2026',
       featured: true,
-      color: '#7453D7',
-      badge: Award
+      color: '#7453D7'
     },
     {
       id: 2,
       team: 'Coding',
       title: 'Code Editor Performance Boost',
-      subtitle: '40% faster compilation',
       summary: 'Students get instant feedback on submissions',
       impact: 'Medium',
-      heroImage: '/hero-backend.png',
+      gradient: 'from-cyan-400 via-blue-500 to-blue-600',
       features: [
         { name: 'Optimized Startup', description: 'Container startup speed improved significantly' },
         { name: 'Reduced Latency', description: 'Cold boot latency decreased for faster responses' },
@@ -47,17 +44,15 @@ export default function ReleasesPage() {
       owner: 'Dev Team',
       publishedDate: 'July 19, 2026',
       featured: false,
-      color: '#33CCFF',
-      badge: Star
+      color: '#33CCFF'
     },
     {
       id: 3,
       team: 'Robotics',
       title: 'Simulation Gallery Launched',
-      subtitle: 'Interactive 3D model viewers',
       summary: 'Showcase student robotics projects',
       impact: 'Medium',
-      heroImage: '/hero-analytics.png',
+      gradient: 'from-orange-400 via-orange-500 to-red-500',
       features: [
         { name: '3D Rendering', description: 'Interactive Three.js model viewing' },
         { name: 'Portfolio Integration', description: 'Connect student portfolios seamlessly' },
@@ -67,8 +62,7 @@ export default function ReleasesPage() {
       owner: 'Alex M.',
       publishedDate: 'July 19, 2026',
       featured: false,
-      color: '#FF7B34',
-      badge: Star
+      color: '#FF7B34'
     }
   ];
 
@@ -111,7 +105,7 @@ export default function ReleasesPage() {
         </div>
       </div>
 
-      {/* Featured Release with Hero Image */}
+      {/* Featured Release */}
       {filteredReleases.find(r => r.featured) && (
         <div className="bg-gradient-to-b from-purple-50 to-white py-12 px-6">
           <div className="max-w-7xl mx-auto">
@@ -121,9 +115,15 @@ export default function ReleasesPage() {
             {filteredReleases.filter(r => r.featured).map(release => (
               <div key={release.id} className="bg-white border-2 border-purple-200 rounded-2xl overflow-hidden">
                 <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
-                  {/* Hero Image */}
-                  <div className="flex items-center justify-center">
-                    <img src={release.heroImage} alt={release.team} className="w-full h-80 object-cover rounded-xl shadow-lg" />
+                  {/* Gradient Box */}
+                  <div className={`flex items-center justify-center bg-gradient-to-br ${release.gradient} rounded-xl shadow-lg h-80 relative overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-20 bg-white"></div>
+                    <div className="text-center z-10">
+                      <div className="text-6xl mb-4" style={{fontFamily: 'Nunito Sans', fontWeight: 'bold', color: 'white'}}>
+                        {release.team[0]}
+                      </div>
+                      <p className="text-white text-lg font-bold" style={{fontFamily: 'Nunito Sans'}}>{release.team}</p>
+                    </div>
                   </div>
 
                   {/* Content */}
@@ -176,9 +176,14 @@ export default function ReleasesPage() {
             {filteredReleases.filter(r => !r.featured).map((release) => (
               <div key={release.id} className="bg-white border-2 border-gray-200 hover:border-gray-300 rounded-xl overflow-hidden transition-all hover:shadow-lg">
                 <div className="grid md:grid-cols-3 gap-6 p-6 md:p-8">
-                  {/* Hero Image */}
-                  <div className="md:col-span-1">
-                    <img src={release.heroImage} alt={release.team} className="w-full h-48 object-cover rounded-lg" />
+                  {/* Gradient Box */}
+                  <div className={`bg-gradient-to-br ${release.gradient} rounded-lg h-48 flex items-center justify-center relative overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-20 bg-white"></div>
+                    <div className="text-center z-10">
+                      <div className="text-5xl font-bold text-white" style={{fontFamily: 'Nunito Sans'}}>
+                        {release.team[0]}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Content */}
@@ -199,15 +204,14 @@ export default function ReleasesPage() {
                       </div>
                     </div>
 
-                    <button onClick={() => setExpandedRelease(expandedRelease === release.id ? null : release.id)} className="mt-4 flex items-center gap-2 text-purple-600 font-bold hover:text-purple-700 transition-all" style={{fontFamily: 'Nunito Sans'}}>
-                      <Eye size={16} />
+                    <button onClick={() => setExpandedRelease(expandedRelease === release.id ? null : release.id)} className="mt-4 inline-flex items-center gap-2 text-purple-600 font-bold hover:text-purple-700 transition-all" style={{fontFamily: 'Nunito Sans'}}>
                       View Details
                       <ChevronDown size={16} className={`transition-transform ${expandedRelease === release.id ? 'rotate-180' : ''}`} />
                     </button>
                   </div>
                 </div>
 
-                {/* Expanded Content */}
+                {/* Expanded */}
                 {expandedRelease === release.id && (
                   <div className="px-6 md:px-8 pb-6 md:pb-8 border-t border-gray-200">
                     <h4 className="text-lg font-bold text-gray-900 mb-4 mt-4" style={{fontFamily: 'Nunito Sans'}}>All Features</h4>
